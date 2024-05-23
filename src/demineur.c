@@ -78,22 +78,25 @@ board *init_board() {
  * @return -1 if an error occured
  * @return 0 if no problem
  * @return 1 if you lose
+ * @return 2 if nothing
  */
 int perform_action(board *b, ACTION a, pos p) {
 	if(!is_valid_pos(b, p)) {
 		return -1;
 	}
+	
+	cell *curr = &b->grid[p.x + p.y * b->width];
 
 	switch(a) {
 		case FLAG:
-			// FIXME: On peu flag des cases revelees
-			b->grid[p.x + p.y * b->width].state = b->grid[p.x + p.y * b->width].state == FLAGGED ? HIDDEN : FLAGGED;
+			
+			curr->state = curr->state == FLAGGED ? HIDDEN : FLAGGED;
 			break;
 		case REVEAL:
-			if(b->grid[p.x + p.y * b->width].state == BOMB_VAL) {
+			if(curr->state == BOMB_VAL) {
 				return 1;
 			}
-			b->grid[p.x + p.y * b->width].state = REVEALED;
+			curr->state = REVEALED;
 			break;
 		default:
 			return -1;
@@ -101,6 +104,13 @@ int perform_action(board *b, ACTION a, pos p) {
 	return 0;
 }
 
+
+/*
+ * @return 0 if not winning
+ * @return 1 if winning
+ * @return 2 if lost
+ * @return -1 if an error occured
+ */
 int is_winning(board *b) {
 	for(int i = 0; i < b->width * b-> height; i++) {
 		cell curr = b->grid[i];
@@ -112,7 +122,7 @@ int is_winning(board *b) {
 				break;
 			case REVEALED:
 				if(curr.value > 8) {
-					return 0;
+					return 2;
 				}
 			case HIDDEN:
 				return 0;
@@ -123,4 +133,12 @@ int is_winning(board *b) {
 	return 1;
 }
 
+char char_cell(cell c) {
+	switch(c.state) {
+		case FLAGGED: return 'F';
+		case HIDDEN: return 'H';
+		case REVEALED: return (c.value % 9) + '0';
+		default: return 0;
+	}
+}
 

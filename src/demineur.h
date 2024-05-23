@@ -35,5 +35,6 @@ typedef struct pos {
 board *init_board();
 int perform_action(board *board, ACTION action, pos pos);
 int ended(board *);
+char char_cell(cell c);
 
 #endif

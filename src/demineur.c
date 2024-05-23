@@ -135,8 +135,8 @@ int is_winning(board *b) {
 
 char char_cell(cell c) {
 	switch(c.state) {
-		case FLAGGED: return 'F';
-		case HIDDEN: return 'H';
+		case FLAGGED: return '^';
+		case HIDDEN: return '#';
 		case REVEALED: return (c.value % 9) + '0';
 		default: return 0;
 	}

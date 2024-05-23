@@ -24,5 +24,5 @@ $(BIN_DIR):
 .PHONY: clean
 
 clean:
-	rm -rf $(BIN_DIR)
+	rm -rf $(EXE) $(BIN_DIR)
 

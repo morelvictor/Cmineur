@@ -4,7 +4,7 @@ BIN_DIR = .bin
 CC = gcc
 FLAGS = -Wall
 INCLUDES = -lncurses
-EXE = demineur
+EXE = cmineur
 
 SRC = $(wildcard $(SRC_DIR)/*.c)
 OBJ = $(addprefix $(BIN_DIR)/, $(SRC:.c=.o))

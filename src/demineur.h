@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <sys/time.h> // gettimeofday
+#include <wchar.h>
 
 #include "constants.h"
 
@@ -35,6 +36,6 @@ typedef struct pos {
 board *init_board();
 int perform_action(board *board, ACTION action, pos pos);
 int ended(board *);
-char char_cell(cell c);
+wchar_t char_cell(cell c);
 
 #endif

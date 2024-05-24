@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ncurses.h>
+#include <locale.h>
 
 #include "demineur.h"
 
@@ -19,6 +20,8 @@ void affiche(board *b, pos topleft) {
 }
 
 int main(int argc, char *argv[]) {
+
+	setlocale(LC_CTYPE, "");
 
 	board *board = init_board();
 	MEVENT event;

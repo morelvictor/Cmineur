@@ -3,19 +3,20 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <stdio.h>
 
-void swap(cell* a, cell* b) {
-    cell temp = *a;
-    *a = *b;
-    *b = temp;
+void swap(cell *a, cell *b) {
+	cell temp = *a;
+	*a = *b;
+	*b = temp;
 }
 
-void shuffle_array(cell* array, size_t size) {
-    srand(time(NULL));
-    for (size_t i = size - 1; i > 0; --i) {
-        size_t j = rand() % (i + 1);
-        swap(&array[i], &array[j]);
-    }
+void shuffle_array(cell *array, size_t size) {
+	srand(time(NULL));
+	for (size_t i = size - 1; i > 0; --i) {
+		size_t j = rand() % (i + 1);
+		swap(&array[i], &array[j]);
+	}
 }
 
 int is_valid_pos(board *b, pos p) {
@@ -53,6 +54,9 @@ int bomb_around(board *b, pos p) {
 
 board *init_board() {
 	board *b = malloc(sizeof(board));
+	b->width = WIDTH;
+	b->height = HEIGHT;
+	b->nb_bombs = NB_BOMBS;
 	cell dfl_cell = { .value = 0, .state = HIDDEN };
 	for(int i = 0; i < b->width * b->height; i++) {
 		b->grid[i] = dfl_cell;
@@ -61,7 +65,7 @@ board *init_board() {
 	for(int i = 0; i < b->nb_bombs; i++) {
 		b->grid[i].value = BOMB_VAL;
 	}
-	
+
 	shuffle_array(b->grid, b->width * b->height);
 
 	for(int i = 0; i < b->width * b->height; i++) {
@@ -84,12 +88,12 @@ int perform_action(board *b, ACTION a, pos p) {
 	if(!is_valid_pos(b, p)) {
 		return -1;
 	}
-	
+
 	cell *curr = &b->grid[p.x + p.y * b->width];
 
 	switch(a) {
 		case FLAG:
-			
+
 			curr->state = curr->state == FLAGGED ? HIDDEN : FLAGGED;
 			break;
 		case REVEAL:
@@ -133,11 +137,11 @@ int is_winning(board *b) {
 	return 1;
 }
 
-char char_cell(cell c) {
+wchar_t char_cell(cell c) {
 	switch(c.state) {
-		case FLAGGED: return '^';
-		case HIDDEN: return '#';
-		case REVEALED: return (c.value % 9) + '0';
+		case FLAGGED: return L'🚩';
+		case HIDDEN: return L'#';
+		case REVEALED: return (c.value % 9) + L'0';
 		default: return 0;
 	}
 }

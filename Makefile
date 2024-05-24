@@ -1,4 +1,4 @@
-
+CFLAGS = -D_XOPEN_SOURCE_EXTENDED
 SRC_DIR = src
 BIN_DIR = .bin
 CC = gcc
@@ -10,10 +10,10 @@ SRC = $(wildcard $(SRC_DIR)/*.c)
 OBJ = $(addprefix $(BIN_DIR)/, $(SRC:.c=.o))
 
 $(EXE): $(OBJ) $(BIN_DIR) $(SRC_DIR)
-	$(CC) $(OBJ) -o $(EXE) $(FLAGS) $(INCLUDES)
+	$(CC) $(LDFLAGS) $(FLAGS) $(INCLUDES) $(OBJ) -o $(EXE)
 
 $(BIN_DIR)/$(SRC_DIR)/%.o: $(SRC_DIR)/%.c $(BIN_DIR)
-	$(CC) -c $< -o $@ $(FLAGS)
+	$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
 
 $(SRC_DIR):
 	@mkdir -p $(SRC_DIR)

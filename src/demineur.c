@@ -137,11 +137,15 @@ int is_winning(board *b) {
 	return 1;
 }
 
-wchar_t char_cell(cell c) {
+wchar_t *char_cell(cell c) {
 	switch(c.state) {
-		case FLAGGED: return L'🚩';
-		case HIDDEN: return L'#';
-		case REVEALED: return (c.value % 9) + L'0';
+		case FLAGGED: return L"🚩";
+		case HIDDEN: return L"#";
+		case REVEALED:
+			     {wchar_t *wc = malloc(2 * sizeof(wchar_t));
+			     wc[0] = (c.value % 9) + L'0';
+			     wc[1] = 0;
+			     return wc;}
 		default: return 0;
 	}
 }

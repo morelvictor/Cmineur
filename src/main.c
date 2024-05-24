@@ -4,20 +4,7 @@
 #include <locale.h>
 
 #include "demineur.h"
-
-void enable_mouse_tracking() {
-    printf("\033[?1003h\n");
-    fflush(stdout);
-}
-
-void disable_mouse_tracking() {
-    printf("\033[?1003l\n");
-    fflush(stdout);
-}
-
-void affiche(board *b, pos topleft) {
-	
-}
+#include "graphic.h"
 
 int main(int argc, char *argv[]) {
 
@@ -35,12 +22,27 @@ int main(int argc, char *argv[]) {
 	 * 4) mise a jour de la case modifie
 	 */
 
-	initscr(); cbreak(); noecho();
+	initscr(); cbreak(); noecho(); curs_set(0);
+	keypad(stdscr, TRUE);
 
 	enable_mouse_tracking();
 	mousemask(ALL_MOUSE_EVENTS | REPORT_MOUSE_POSITION, NULL);
-	
-	getch();
+
+	pos topleft;
+	int c;
+	while((c = getch()) != 'q') {
+		switch(c) {
+			case KEY_MOUSE:
+				if(getmouse(&event) == OK) {
+					topleft = (pos) { event.x, event.y };
+				}
+				affiche(board, topleft);
+				break;
+			default: break;
+
+
+		}
+	}
 
 	endwin();
 	disable_mouse_tracking();

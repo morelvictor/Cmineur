@@ -97,8 +97,26 @@ int perform_action(board *b, ACTION a, pos p) {
 			curr->state = curr->state == FLAGGED ? HIDDEN : FLAGGED;
 			break;
 		case REVEAL:
-			if(curr->state == BOMB_VAL) {
+			if(curr->state == REVEALED) {
+				break;
+			}
+			if(curr->value == BOMB_VAL) {
 				return 1;
+			}
+			if(curr->value == 0) {
+				fprintf(stderr, "yo");
+				for(int i = -1; i <= 1; i++) {
+					for(int j = -1; j <= 1; j++) {
+						if(i == 0 && j == 0) {
+							continue;
+						}
+						pos curr_pos = {p.x + i, p.y + j};
+						if(is_valid_pos(b, curr_pos)) {
+							curr->state = REVEALED;
+							perform_action(b, a, curr_pos);
+						}
+					}
+				}
 			}
 			curr->state = REVEALED;
 			break;
@@ -139,13 +157,13 @@ int is_winning(board *b) {
 
 wchar_t *char_cell(cell c) {
 	switch(c.state) {
-		case FLAGGED: return L"🚩";
+		case FLAGGED: return L"F";
 		case HIDDEN: return L"#";
 		case REVEALED:
 			     {wchar_t *wc = malloc(2 * sizeof(wchar_t));
-			     wc[0] = (c.value % 9) + L'0';
-			     wc[1] = 0;
-			     return wc;}
+				     wc[0] = (c.value % 9) + L'0';
+				     wc[1] = 0;
+				     return wc;}
 		default: return 0;
 	}
 }

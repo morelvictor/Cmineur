@@ -44,7 +44,7 @@ This will generate an executable named `demineur` in the current directory.
 To run the game, use the following command after compiling the project:
 
 ```bash
-./demineur
+./cmineur
 ```
 
 ## Cleaning Up

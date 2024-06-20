@@ -37,7 +37,7 @@ To compile the project, use the `make` command in the project directory:
 make
 ```
 
-This will generate an executable named `demineur` in the current directory.
+This will generate an executable named `cmineur` in the current directory.
 
 ## Execution
 
